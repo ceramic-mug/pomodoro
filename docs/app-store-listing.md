@@ -113,7 +113,7 @@ First release.
 
 | Field | Answer |
 |---|---|
-| Price | **US$4.99, one-time purchase.** No subscription, no in-app purchases. Set in Pricing and Availability → Price Schedule → USD 4.99 (Apple generates the other currencies) |
+| Price | **US$0.99, one-time purchase.** No subscription, no in-app purchases. Set in Pricing and Availability → Price Schedule → USD 0.99 (Apple generates the other currencies) |
 | Paid-app prerequisites | The **Paid Applications Agreement** must be active, plus bank and tax details, under Business → Agreements, Tax, and Banking. Until that is done the app can only ship as free |
 | Primary category | Productivity |
 | Secondary category | Health & Fitness (optional) |
