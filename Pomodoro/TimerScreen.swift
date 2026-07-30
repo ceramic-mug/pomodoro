@@ -72,7 +72,7 @@ struct TimerScreen: View {
                     HStack {
                         Text(position.cyclesDone > 0
                              ? "\(position.cyclesDone) cycle\(position.cyclesDone == 1 ? "" : "s") done"
-                             : "Pomodoro")
+                             : "Cadence")
                             .font(.system(size: 17, weight: .semibold, design: .rounded))
                             .foregroundStyle(.white.opacity(0.5))
                         Spacer()
@@ -156,7 +156,7 @@ private struct TopBar: View {
 
     var body: some View {
         HStack {
-            Text(cyclesDone > 0 ? "\(cyclesDone) cycle\(cyclesDone == 1 ? "" : "s") done" : "Pomodoro")
+            Text(cyclesDone > 0 ? "\(cyclesDone) cycle\(cyclesDone == 1 ? "" : "s") done" : "Cadence")
                 .font(.system(size: 15, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.5))
 

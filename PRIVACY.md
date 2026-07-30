@@ -1,8 +1,8 @@
-# Privacy Policy — Pomodoro
+# Privacy Policy — Cadence
 
 _Last updated: 30 July 2026_
 
-Pomodoro does not collect, transmit, or share any data about you.
+Cadence does not collect, transmit, or share any data about you.
 
 ## What the app stores
 

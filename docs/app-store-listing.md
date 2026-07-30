@@ -7,10 +7,10 @@ Paste-ready metadata for App Store Connect. Character limits noted; all entries 
 ## Name (30 max)
 
 ```
-Pomodoro — Quiet Focus Timer
+Cadence: Pomodoro Focus Timer
 ```
 
-*(28 characters. If the name is taken, "Quiet Pomodoro Timer" and "Pomodoro Focus Cycle" are fallbacks.)*
+*(29 characters — reserved in App Store Connect.)*
 
 ## Subtitle (30 max)
 
@@ -21,15 +21,15 @@ Focus cycles that keep time
 ## Promotional text (170 max, editable without review)
 
 ```
-A focus timer that runs the whole session for you — four rounds of work and rest, then a long break. Set your own lengths, colours and glyphs. No account, no ads, no tracking.
+A focus timer that runs the whole session for you — four rounds of work and rest, then a long break. Set your own lengths, colours and glyphs. Buy once. No subscription, no ads, no tracking.
 ```
 
 ## Description (4000 max)
 
 ```
-Pomodoro is a quiet, single-screen focus timer. Open it, press start, and it runs your whole working session — focus, break, focus, break, four times over, then a long break — and starts again until you stop it.
+Cadence is a quiet, single-screen focus timer. Open it, press start, and it runs your whole working session — focus, break, focus, break, four times over, then a long break — and starts again until you stop it.
 
-No account. No ads. No analytics. Nothing leaves your phone.
+Buy it once and it is yours. No subscription, no account, no ads, no analytics. Nothing leaves your phone.
 
 
 KEEPS TIME, WHATEVER YOU DO
@@ -61,7 +61,7 @@ IN CONTROL, ALWAYS
 
 HANDS-FREE
 
-Start, pause or stop from Siri or the Shortcuts app. Assign "Start or Pause Pomodoro" to the Action Button and begin a focus session without unlocking your phone.
+Start, pause or stop from Siri or the Shortcuts app. Assign "Start or Pause Cadence" to the Action Button and begin a focus session without unlocking your phone.
 
 
 THOUGHTFUL DETAILS
@@ -72,7 +72,7 @@ THOUGHTFUL DETAILS
 • Dark by design, easy on the eyes at night
 
 
-Pomodoro does not collect, transmit, or share any data. There is no network code in the app.
+Cadence does not collect, transmit, or share any data. There is no network code in the app.
 ```
 
 ## Keywords (100 max, comma-separated, no spaces)
@@ -113,6 +113,8 @@ First release.
 
 | Field | Answer |
 |---|---|
+| Price | **US$4.99, one-time purchase.** No subscription, no in-app purchases. Set in Pricing and Availability → Price Schedule → USD 4.99 (Apple generates the other currencies) |
+| Paid-app prerequisites | The **Paid Applications Agreement** must be active, plus bank and tax details, under Business → Agreements, Tax, and Banking. Until that is done the app can only ship as free |
 | Primary category | Productivity |
 | Secondary category | Health & Fitness (optional) |
 | Age rating | 4+ — no objectionable content of any kind |
@@ -127,7 +129,7 @@ First release.
 ## Review notes (paste into App Review Information)
 
 ```
-Pomodoro is a fully offline focus timer. There is no account, no login, and no server component, so no demo credentials are needed.
+Cadence is a fully offline focus timer. There is no account, no login, and no server component, so no demo credentials are needed.
 
 To exercise the app: press Start; use the skip button (rightmost) to advance through phases quickly. Notifications are used only to announce phase changes, and Live Activities to show the running timer on the Lock Screen and in StandBy.
 ```

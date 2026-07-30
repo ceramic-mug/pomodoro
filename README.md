@@ -1,8 +1,8 @@
-# Pomodoro
+# Cadence
 
 A quiet, single-screen focus timer for iPhone. No account, no analytics, no upsell — open it, press start, and it runs the whole working session for you.
 
-Pomodoro cycles **focus · break, four times over, with the last break longer** — 25 / 5 / 15 by default — and repeats until you stop it. Every length, colour, and glyph is yours to change.
+Cadence cycles **focus · break, four times over, with the last break longer** — 25 / 5 / 15 by default — and repeats until you stop it. Every length, colour, and glyph is yours to change.
 
 <p align="center">
   <img src="docs/screenshots/01-focus.png" width="19%" alt="Focus session running">
