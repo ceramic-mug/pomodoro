@@ -8,7 +8,7 @@ struct PomodoroLiveActivity: Widget {
             let view = Snapshot(state: context.state)
             LockScreenView(view: view)
                 .activityBackgroundTint(Color.black.opacity(0.55))
-                .activitySystemActionForegroundColor(view.phase.accent)
+                .activitySystemActionForegroundColor(view.accent)
         } dynamicIsland: { context in
             let view = Snapshot(state: context.state)
 
@@ -18,9 +18,9 @@ struct PomodoroLiveActivity: Widget {
                         Text(view.phase.title)
                             .font(.system(size: 15, weight: .semibold, design: .rounded))
                     } icon: {
-                        Image(systemName: view.phase.symbol)
+                        Image(systemName: view.symbol)
                     }
-                    .foregroundStyle(view.phase.accent)
+                    .foregroundStyle(view.accent)
                     .padding(.leading, 4)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
@@ -32,15 +32,15 @@ struct PomodoroLiveActivity: Widget {
                         .padding(.top, 2)
                 }
             } compactLeading: {
-                Image(systemName: view.phase.symbol)
-                    .foregroundStyle(view.phase.accent)
+                Image(systemName: view.symbol)
+                    .foregroundStyle(view.accent)
             } compactTrailing: {
                 CountdownText(view: view, size: 13)
                     .frame(width: 46)
             } minimal: {
                 Ring(view: view, lineWidth: 3)
             }
-            .keylineTint(view.phase.accent)
+            .keylineTint(view.accent)
         }
     }
 }
@@ -54,10 +54,13 @@ private struct Snapshot {
     let range: ClosedRange<Date>
     let remaining: TimeInterval
 
+    let config: PomodoroConfig
+
     init(state: PomodoroActivityAttributes.ContentState) {
         isRunning = state.isRunning
+        config = state.config
         if state.isRunning {
-            let slot = Cycle.slot(anchor: state.anchor)
+            let slot = Cycle.slot(anchor: state.anchor, timings: state.config.timings)
             phase = slot.position.phase
             index = slot.position.indexInPattern
             remaining = slot.position.remaining
@@ -71,8 +74,11 @@ private struct Snapshot {
         }
     }
 
+    var accent: Color { config.color(for: phase) }
+    var symbol: String { config.symbol(for: phase) }
+
     var progress: Double {
-        let total = phase.duration
+        let total = config.duration(for: phase)
         guard total > 0 else { return 0 }
         return min(max(1 - remaining / total, 0), 1)
     }
@@ -96,9 +102,9 @@ private struct LockScreenView: View {
             Ring(view: view, lineWidth: 6)
                 .frame(width: 54, height: 54)
                 .overlay {
-                    Image(systemName: view.phase.symbol)
+                    Image(systemName: view.symbol)
                         .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(view.phase.accent)
+                        .foregroundStyle(view.accent)
                 }
 
             VStack(alignment: .leading, spacing: 3) {
@@ -161,11 +167,11 @@ private struct Ring: View {
                     EmptyView()
                 }
                 .progressViewStyle(.circular)
-                .tint(view.phase.accent)
+                .tint(view.accent)
             } else {
                 Circle()
                     .trim(from: 0, to: view.progress)
-                    .stroke(view.phase.accent, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                    .stroke(view.accent, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                     .rotationEffect(.degrees(-90))
             }
         }
@@ -180,8 +186,8 @@ private struct SegmentBar: View {
         HStack(spacing: 3) {
             ForEach(Array(Cycle.pattern.enumerated()), id: \.offset) { i, phase in
                 Capsule()
-                    .fill(i < view.index ? view.phase.accent.opacity(0.4)
-                          : i == view.index ? phase.accent
+                    .fill(i < view.index ? view.accent.opacity(0.4)
+                          : i == view.index ? view.config.color(for: phase)
                           : Color.white.opacity(0.16))
                     .frame(width: phase == .focus ? 20 : phase == .longBreak ? 12 : 5, height: 3)
             }

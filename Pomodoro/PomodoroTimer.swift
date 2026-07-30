@@ -4,7 +4,7 @@ import SwiftUI
 import UIKit
 import UserNotifications
 
-/// Drives an endless 25-5-25-5-25-5-15 cycle.
+/// Drives an endless focus/break cycle at the lengths the user has chosen.
 ///
 /// Nothing is stepped by the ticker: the current phase and its remaining time
 /// are *derived* from `anchor`, the absolute date the session's elapsed time is
@@ -42,16 +42,18 @@ final class PomodoroTimer {
 
     typealias Position = Cycle.Position
 
-    static let cycleLength = Cycle.length
+    var config: PomodoroConfig { settings.config }
+    var cycleLength: TimeInterval { Cycle.length(config.timings) }
 
-    var position: Position { Cycle.position(at: elapsed) }
+    var position: Position { Cycle.position(at: elapsed, timings: config.timings) }
 
     var phase: Phase { position.phase }
     var remaining: TimeInterval { position.remaining }
 
     var progress: Double {
         let p = position
-        return min(max(1 - p.remaining / p.phase.duration, 0), 1)
+        guard p.phaseDuration > 0 else { return 0 }
+        return min(max(1 - p.remaining / p.phaseDuration, 0), 1)
     }
 
     var clock: String {
@@ -109,6 +111,13 @@ final class PomodoroTimer {
         Haptics.tap()
     }
 
+    /// Put the current phase back to its full length, keeping the position in
+    /// the cycle and the run state.
+    func restartPhase() {
+        seek(to: position.phaseStartElapsed)
+        Haptics.tap()
+    }
+
     /// Jump to the start of the next phase, keeping run state.
     func skip() {
         let target = elapsed + position.remaining
@@ -123,6 +132,7 @@ final class PomodoroTimer {
         return .init(
             anchor: anchor ?? Date().addingTimeInterval(-elapsed),
             isRunning: isRunning,
+            config: config,
             pausedPhase: p.phase,
             pausedRemaining: p.remaining,
             pausedFocusDone: p.focusDoneInCycle,
@@ -206,13 +216,13 @@ final class PomodoroTimer {
         var cursor = elapsed
 
         for index in 0..<scheduledBoundaries {
-            let here = Cycle.position(at: cursor)
+            let here = Cycle.position(at: cursor, timings: config.timings)
             let boundary = cursor + here.remaining
             let delay = boundary - elapsed
             guard delay > 0.5 else { break }
 
             let arriving = here.next
-            let copy = arriving.arrivalNotification
+            let copy = arriving.arrivalNotification(minutes: config.timings.minutes(for: arriving))
             let content = UNMutableNotificationContent()
             content.title = copy.title
             content.body = copy.body
@@ -238,6 +248,17 @@ final class PomodoroTimer {
     func alertSettingsChanged() {
         guard isRunning else { return }
         scheduleAlerts()
+    }
+
+    /// Phase lengths changed: every derived position would shift under the
+    /// session, so start the cycle cleanly from the top.
+    func timingsChanged() {
+        reset()
+    }
+
+    /// Colours or glyphs changed: timing is untouched, just refresh the surfaces.
+    func appearanceChanged() {
+        pushActivity()
     }
 
     // MARK: - Persistence

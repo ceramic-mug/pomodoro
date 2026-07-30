@@ -40,6 +40,20 @@ struct StopPomodoroIntent: AppIntent {
     }
 }
 
+/// One-tap target for the Action Button: start if stopped, pause if running.
+struct TogglePomodoroIntent: AppIntent {
+    static var title: LocalizedStringResource = "Start or Pause Pomodoro"
+    static var description = IntentDescription("Starts the cycle, or pauses it if it is already running.")
+    static var openAppWhenRun = false
+
+    @MainActor
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        let timer = PomodoroTimer.shared
+        timer.toggle()
+        return .result(dialog: timer.isRunning ? "Focus started." : "Paused.")
+    }
+}
+
 struct PomodoroShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
@@ -47,6 +61,12 @@ struct PomodoroShortcuts: AppShortcutsProvider {
             phrases: ["Start \(.applicationName)", "Start a focus session in \(.applicationName)"],
             shortTitle: "Start",
             systemImageName: "play.fill"
+        )
+        AppShortcut(
+            intent: TogglePomodoroIntent(),
+            phrases: ["Toggle \(.applicationName)", "Start or pause \(.applicationName)"],
+            shortTitle: "Start or Pause",
+            systemImageName: "playpause.fill"
         )
         AppShortcut(
             intent: PausePomodoroIntent(),

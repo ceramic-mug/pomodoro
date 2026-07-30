@@ -6,9 +6,7 @@ import UIKit
 final class Settings {
     static let shared = Settings()
 
-    /// Marks Pomodoro's alerts time-sensitive and surfaces the Shortcuts
-    /// automation that flips system Do Not Disturb — iOS gives apps no API to
-    /// toggle Focus modes directly.
+    /// Marks Pomodoro's alerts time-sensitive so they arrive during a Focus.
     var quietMode: Bool {
         didSet { store.set(quietMode, forKey: "quietMode") }
     }
@@ -24,6 +22,16 @@ final class Settings {
         }
     }
 
+    /// Phase lengths, colours, and glyphs.
+    var config: PomodoroConfig {
+        didSet {
+            guard config != oldValue else { return }
+            if let data = try? JSONEncoder().encode(config) {
+                store.set(data, forKey: "config")
+            }
+        }
+    }
+
     private let store = UserDefaults.standard
 
     private init() {
@@ -31,5 +39,11 @@ final class Settings {
         quietMode = store.bool(forKey: "quietMode")
         soundEnabled = store.bool(forKey: "soundEnabled")
         keepAwake = store.bool(forKey: "keepAwake")
+        if let data = store.data(forKey: "config"),
+           let decoded = try? JSONDecoder().decode(PomodoroConfig.self, from: data) {
+            config = decoded
+        } else {
+            config = .standard
+        }
     }
 }

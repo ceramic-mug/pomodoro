@@ -11,6 +11,9 @@ struct PomodoroActivityAttributes: ActivityAttributes {
         /// across phase boundaries the app slept through.
         var anchor: Date
         var isRunning: Bool
+        /// The user's lengths, colours, and glyphs travel with the state so the
+        /// widget renders exactly what the app does.
+        var config: PomodoroConfig
         /// Frozen snapshot, used while paused (no anchor to derive from).
         var pausedPhase: Phase
         var pausedRemaining: TimeInterval
