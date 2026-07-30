@@ -4,6 +4,13 @@ A small, deliberately quiet Pomodoro timer for iPhone. One screen, one gesture, 
 
 It runs a continuous cycle — **25 focus · 5 break, four times over, with the last break stretched to 15 minutes** — and then starts again. It keeps going until you stop it.
 
+<p align="center">
+  <img src="docs/screenshots/01-focus.png" width="24%" alt="Focus session running">
+  <img src="docs/screenshots/02-break.png" width="24%" alt="Short break">
+  <img src="docs/screenshots/03-long-break.png" width="24%" alt="Long break">
+  <img src="docs/screenshots/04-settings.png" width="24%" alt="Settings">
+</p>
+
 ---
 
 ## Why another timer
