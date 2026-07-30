@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cadence — a quiet Pomodoro focus timer for iPhone</title>
+<meta name="description" content="Cadence runs your whole working session: focus, break, four times over, then a long break. Set your own lengths, colours and glyphs. No account, no subscription, no tracking.">
+<link rel="icon" href="icon.png">
+<meta property="og:title" content="Cadence — a quiet Pomodoro focus timer">
+<meta property="og:description" content="Press start once. It runs the whole session, and keeps time even when your phone is locked.">
+<meta property="og:image" content="icon.png">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg: #0b0b0e;
+    --ink: #f4f2f2;
+    --muted: rgba(244, 242, 242, 0.52);
+    --faint: rgba(244, 242, 242, 0.10);
+    --ember: #ff6b5a;
+    --teal: #4fd1c2;
+    --indigo: #7c9cff;
+    --radius: 20px;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", Inter, system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 40rem at 50% -10%, rgba(255, 107, 90, 0.22), transparent 70%),
+      radial-gradient(40rem 30rem at 8% 100%, rgba(124, 156, 255, 0.12), transparent 70%);
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Hero */
+
+  header {
+    text-align: center;
+    padding: 96px 0 24px;
+  }
+
+  header img.icon {
+    width: 104px;
+    height: 104px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(255, 107, 90, 0.28);
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 7vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 28px 0 0;
+    font-weight: 600;
+  }
+
+  .tagline {
+    font-size: clamp(1.05rem, 2.6vw, 1.3rem);
+    color: var(--muted);
+    max-width: 34ch;
+    margin: 18px auto 0;
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .pill {
+    border: 1px solid var(--faint);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--muted);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 0.86rem;
+    font-weight: 500;
+  }
+
+  .status {
+    display: inline-block;
+    margin-top: 34px;
+    padding: 13px 26px;
+    border-radius: 999px;
+    background: var(--ember);
+    color: #17110f;
+    font-weight: 650;
+    font-size: 1rem;
+    box-shadow: 0 14px 40px rgba(255, 107, 90, 0.3);
+  }
+
+  .status-note {
+    display: block;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* Shots */
+
+  .shots {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 64px 0 20px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .shots::-webkit-scrollbar { display: none; }
+
+  .shots img {
+    width: 232px;
+    flex: 0 0 auto;
+    border-radius: 30px;
+    border: 1px solid var(--faint);
+    scroll-snap-align: center;
+  }
+
+  /* Sections */
+
+  section { padding: 56px 0; }
+
+  h2 {
+    font-size: clamp(1.6rem, 4vw, 2.1rem);
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+
+  .lede {
+    color: var(--muted);
+    max-width: 60ch;
+    margin: 0 0 34px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    border: 1px solid var(--faint);
+    background: rgba(255, 255, 255, 0.045);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .card h3 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+    font-weight: 620;
+  }
+
+  .card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 9px;
+    vertical-align: middle;
+  }
+
+  .cycle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin: 8px 0 34px;
+  }
+
+  .seg {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--ember);
+  }
+
+  .seg.short { width: 22px; background: var(--teal); }
+  .seg.focus { width: 84px; }
+  .seg.long  { width: 56px; background: var(--indigo); }
+
+  .privacy {
+    border: 1px solid var(--faint);
+    border-radius: var(--radius);
+    padding: 32px;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .privacy strong { color: var(--ink); }
+
+  footer {
+    border-top: 1px solid var(--faint);
+    margin-top: 40px;
+    padding: 32px 0 64px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  a { color: var(--ember); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    header { padding-top: 64px; }
+    .shots img { width: 196px; }
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+
+<div class="wrap">
+
+  <header>
+    <img class="icon" src="icon.png" alt="Cadence app icon">
+    <h1>Cadence</h1>
+    <p class="tagline">A quiet focus timer that runs the whole working session for you.</p>
+
+    <div class="pills">
+      <span class="pill">Buy once · $0.99</span>
+      <span class="pill">No subscription</span>
+      <span class="pill">No account</span>
+      <span class="pill">No tracking</span>
+    </div>
+
+    <span class="status">Coming to the App Store</span>
+    <span class="status-note">Version 1.0 is with App Review. iPhone, iOS 17 or later.</span>
+  </header>
+
+  <div class="shots">
+    <img src="screenshots/01-focus.png" alt="A focus session counting down">
+    <img src="screenshots/02-break.png" alt="A short break in teal">
+    <img src="screenshots/03-long-break.png" alt="A long break in indigo">
+    <img src="screenshots/04-settings-timer.png" alt="Timer settings with session lengths">
+    <img src="screenshots/05-settings-appearance.png" alt="Appearance settings with colours and glyphs">
+  </div>
+
+  <section>
+    <h2>Press start once</h2>
+    <p class="lede">Cadence runs a full cycle and then starts it again, so you are not reaching for your phone between every round.</p>
+
+    <div class="cycle" aria-label="Twenty-five minutes focus, five minute break, four times over, then a fifteen minute long break">
+      <span class="seg focus"></span><span class="seg short"></span>
+      <span class="seg focus"></span><span class="seg short"></span>
+      <span class="seg focus"></span><span class="seg short"></span>
+      <span class="seg focus"></span><span class="seg long"></span>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot" style="background: var(--ember)"></span>Keeps time regardless</h3>
+        <p>The clock is anchored to a date, not to a ticking counter. Lock your phone, switch apps, even force-quit — come back and it is exactly where it should be.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background: var(--teal)"></span>Tells you when to stop</h3>
+        <p>Every phase change is scheduled the moment you press start, so alerts arrive on time with the app closed — and during a Focus, if you want them to.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background: var(--indigo)"></span>On your Lock Screen</h3>
+        <p>A Live Activity shows the countdown and ring on the Lock Screen and in the Dynamic Island. On a charger, sideways, StandBy turns it into a desk clock.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Made your way</h2>
+    <p class="lede">Sensible defaults, then everything worth changing is one tap away in two tidy tabs.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Your lengths</h3>
+        <p>Focus from 5 to 90 minutes, short break 1 to 30, long break 5 to 60.</p>
+      </div>
+      <div class="card">
+        <h3>Your colours</h3>
+        <p>Eight accents per phase. The whole screen follows the one you pick — ring, glow, buttons, Live Activity.</p>
+      </div>
+      <div class="card">
+        <h3>Your glyphs</h3>
+        <p>A symbol set chosen to suit each phase, tinted to match your colour.</p>
+      </div>
+      <div class="card">
+        <h3>Always in control</h3>
+        <p>Pause with a tap on the dial, restart just the current phase, skip ahead, or stop back to the top of the cycle.</p>
+      </div>
+      <div class="card">
+        <h3>Hands-free</h3>
+        <p>Start, pause and stop from Siri or Shortcuts. Put “Start or Pause” on the Action Button and begin without unlocking.</p>
+      </div>
+      <div class="card">
+        <h3>Sideways too</h3>
+        <p>A proper landscape layout, not a stretched portrait one. Dark by design, easy on the eyes at night.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="privacy">
+      <h2>Nothing leaves your phone</h2>
+      <p class="lede" style="margin-bottom: 0">
+        <strong>Cadence has no network code at all.</strong> No account, no analytics, no crash reporting, no advertising identifiers. It stores three things on your device: when the current session started, whether it is running, and your settings. Read the full <a href="privacy.html">privacy policy</a> — it is short.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Joshua Eastman · Apache-2.0</span>
+    <span>
+      <a href="https://github.com/ceramic-mug/pomodoro">Source on GitHub</a> ·
+      <a href="privacy.html">Privacy</a> ·
+      <a href="https://github.com/ceramic-mug/pomodoro/issues">Support</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>

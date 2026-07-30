@@ -40,6 +40,8 @@ Most timers lose the thread the moment you lock your phone, or make you press st
 
 Nothing leaves your phone. There is no network code in the app at all — see [PRIVACY.md](PRIVACY.md).
 
+**[cadence site →](https://ceramic-mug.github.io/pomodoro/)**
+
 ## Status
 
 Version 1.0 was submitted to the App Store on 30 July 2026 and is awaiting review.
@@ -77,6 +79,8 @@ xcodebuild -project Pomodoro.xcodeproj -scheme Pomodoro -configuration Debug -de
 Pomodoro/            App target — timer engine, UI, settings, Live Activity driver
 PomodoroShared/      Shared with the widget: Phase, Cycle, Config, activity attributes
 PomodoroWidgets/     Widget extension — Live Activity views for Lock Screen, Island, StandBy
+docs/                Marketing site (GitHub Pages), screenshots, store listing copy
+scripts/             Icon generator, App Store Connect metadata push
 project.yml          XcodeGen project definition
 ```
 
