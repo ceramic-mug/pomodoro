@@ -70,3 +70,7 @@ Pomodoro.xcodeproj/
 build/
 DerivedData/
 
+
+# Python bytecode
+__pycache__/
+*.pyc

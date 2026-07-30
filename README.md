@@ -34,15 +34,22 @@ Most timers lose the thread the moment you lock your phone, or make you press st
 | **Cycle track** | All eight segments drawn to scale, so you can see where you are at a glance. |
 | **Live Activity** | Lock Screen, Dynamic Island, and StandBy, with a system-driven countdown and progress ring. |
 | **Siri, Shortcuts, Action Button** | *Start*, *Pause*, *Stop*, and *Start or Pause* actions — assign one to the Action Button for one-press focus. |
+| **Settings, not sprawl** | Two tabs — Timer for lengths and alerts, Appearance for colours and glyphs. |
 | **Landscape** | A dedicated side-by-side layout, not a stretched portrait one. |
 | **Survives everything** | Session state is persisted; reopening a killed app resumes exactly where the clock really is. |
 
 Nothing leaves your phone. There is no network code in the app at all — see [PRIVACY.md](PRIVACY.md).
 
+## Status
+
+Version 1.0 was submitted to the App Store on 30 July 2026 and is awaiting review.
+
 ## Requirements
 
 - iPhone running iOS 17.0 or later
 - Xcode 16+ and [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`) to build — the `.xcodeproj` is generated, not committed
+
+The Xcode project, scheme, and bundle identifier are still named `Pomodoro` from before the app was named Cadence. That is deliberate: the bundle ID is registered with Apple and cannot change, and renaming the rest would buy nothing.
 
 ## Building
 
